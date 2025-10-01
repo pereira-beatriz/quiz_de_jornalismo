@@ -1,4 +1,4 @@
-<!DOCTYPE ahtml>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
             background-color: #000;
             color: #fff;
             font-family: Arial, sans-serif;
-            font-size: 22px; 
+            font-size: 22px;
             padding: 20px;
             overflow-x: hidden;
             display: flex;
@@ -24,7 +24,7 @@
         h1 {
             color: #00aaff;
             text-align: center;
-            font-size: 40px; 
+            font-size: 40px;
         }
 
         .question {
@@ -53,16 +53,16 @@
         label:hover {
             background-color: #333;
         }
-        
+
         button {
             background-color: #00aaff;
             color: white;
             border: none;
-            padding: 14px 28px; 
+            padding: 14px 28px;
             margin: 10px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 20px; 
+            font-size: 20px;
         }
 
         button:hover {
@@ -70,7 +70,7 @@
         }
 
         #result {
-            font-size: 24px; 
+            font-size: 24px;
             margin-top: 20px;
             color: #00ffcc;
             text-align: center;
@@ -96,165 +96,264 @@
 
 <div class="container">
     <h1>Quiz de Jornalismo</h1>
-
-    <form id="quiz-form">
-        <div class="question">
-            <p>1. Qual é a principal função do jornalismo?</p>
-            <label><input type="radio" name="q1" value="a"> Informar com precisão e imparcialidade</label>
-            <label><input type="radio" name="q1" value="b"> Promover produtos comerciais</label>
-            <label><input type="radio" name="q1" value="c"> Criar conteúdo viral</label>
-            <label><input type="radio" name="q1" value="d"> Entreter o público</label>
-        </div>
-
-        <div class="question">
-            <p>2. O que significa “checagem de fatos”?</p>
-            <label><input type="radio" name="q2" value="a"> Criar notícias com base em rumores</label>
-            <label><input type="radio" name="q2" value="b"> Confirmar fontes de entretenimento</label>
-            <label><input type="radio" name="q2" value="c"> Verificar se uma notícia é popular</label>
-            <label><input type="radio" name="q2" value="d"> Verificar a veracidade das informações</label>
-        </div>
-
-        <div class="question">
-            <p>3. Qual é o papel da ética no jornalismo?</p>
-            <label><input type="radio" name="q3" value="a"> Garantir que o jornalista seja famoso</label>
-            <label><input type="radio" name="q3" value="b"> Proteger interesses comerciais</label>
-            <label><input type="radio" name="q3" value="c"> Guiar a conduta responsável e justa</label>
-            <label><input type="radio" name="q3" value="d"> Criar manchetes chamativas</label>
-        </div>
-
-        <div class="question">
-            <p>4. O que é uma fonte confiável?</p>
-            <label><input type="radio" name="q4" value="a"> Um perfil popular nas redes sociais</label>
-            <label><input type="radio" name="q4" value="b"> Alguém com conhecimento e credibilidade</label>
-            <label><input type="radio" name="q4" value="c"> Qualquer pessoa que queira falar</label>
-            <label><input type="radio" name="q4" value="d"> Um influenciador digital</label>
-        </div>
-
-        <div class="question">
-            <p>5. Qual é a diferença entre notícia e opinião?</p>
-            <label><input type="radio" name="q5" value="a"> Não há diferença</label>
-            <label><input type="radio" name="q5" value="b"> Opinião é sempre mais confiável</label>
-            <label><input type="radio" name="q5" value="c"> Notícia é baseada em sentimentos</label>
-            <label><input type="radio" name="q5" value="d"> Notícia apresenta fatos; opinião traz interpretações</label>
-        </div>
-
-        <div class="question">
-            <p>6. O que é liberdade de imprensa?</p>
-            <label><input type="radio" name="q6" value="a"> Direito de publicar qualquer coisa sem consequências</label>
-            <label><input type="radio" name="q6" value="b"> Controle total do governo sobre a mídia</label>
-            <label><input type="radio" name="q6" value="c"> Direito de informar sem censura ou repressão</label>
-            <label><input type="radio" name="q6" value="d"> Liberdade para promover marcas</label>
-        </div>
-
-        <button type="button" onclick="verificarRespostas()">Enviar</button>
-        <button type="button" id="retry" onclick="tentarNovamente()" style="display:none;">Tentar novamente</button>
-    </form>
-
+    <form id="quiz-form"></form>
     <div id="result"></div>
 </div>
 
 <script>
-    // Emojis flutuando nas laterais da tela
+    const bancoDePerguntas = [
+        {
+            pergunta: "Qual é a principal função do jornalismo?",
+            alternativas: ["Informar com precisão e imparcialidade", "Promover produtos comerciais", "Criar conteúdo viral", "Entreter o público"],
+            correta: 0
+        },
+        {
+            pergunta: "O que significa 'checagem de fatos'?",
+            alternativas: ["Criar notícias com base em rumores", "Confirmar fontes de entretenimento", "Verificar se uma notícia é popular", "Verificar a veracidade das informações"],
+            correta: 3
+        },
+        {
+            pergunta: "Qual é o papel da ética no jornalismo?",
+            alternativas: ["Garantir que o jornalista seja famoso", "Proteger interesses comerciais", "Guiar a conduta responsável e justa", "Criar manchetes chamativas"],
+            correta: 2
+        },
+        {
+            pergunta: "O que é uma fonte confiável?",
+            alternativas: ["Um perfil popular nas redes sociais", "Alguém com conhecimento e credibilidade", "Qualquer pessoa que queira falar", "Um influenciador digital"],
+            correta: 1
+        },
+        {
+            pergunta: "Qual é a diferença entre notícia e opinião?",
+            alternativas: ["Não há diferença", "Opinião é sempre mais confiável", "Notícia é baseada em sentimentos", "Notícia apresenta fatos; opinião traz interpretações"],
+            correta: 3
+        },
+        {
+            pergunta: "O que é liberdade de imprensa?",
+            alternativas: ["Direito de publicar qualquer coisa sem consequências", "Controle total do governo sobre a mídia", "Direito de informar sem censura ou repressão", "Liberdade para promover marcas"],
+            correta: 2
+        },
+        {
+            pergunta: "O que é um 'lead' em jornalismo?",
+            alternativas: ["Opinião", "Resumo", "Conclusão", "Citação"],
+            correta: 1
+        },
+        {
+            pergunta: "O que é uma pauta?",
+            alternativas: ["Agenda de temas jornalísticos", "Artigo de opinião", "Publicidade", "Entrevista"],
+            correta: 0
+        },
+        {
+            pergunta: "O que é um furo jornalístico?",
+            alternativas: ["Erro de apuração", "Exclusividade na informação", "Repetição de conteúdo", "Correção editorial"],
+            correta: 1
+        },
+        {
+            pergunta: "Qual é a função do editorial?",
+            alternativas: ["Informar", "Opinar", "Anunciar", "Divertir"],
+            correta: 1
+        },
+    {
+        pergunta: "O que é uma reportagem investigativa?",
+        alternativas: ["Uma matéria sobre esportes", "Uma análise de moda", "Uma apuração profunda sobre temas relevantes", "Uma entrevista com celebridades"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual é o objetivo da imparcialidade no jornalismo?",
+        alternativas: ["Defender um ponto de vista", "Evitar conflitos", "Apresentar os fatos sem viés", "Agradar o público"],
+        correta: 2
+    },
+    {
+        pergunta: "O que caracteriza uma notícia falsa?",
+        alternativas: ["Informações verificadas", "Fontes confiáveis", "Conteúdo enganoso ou fabricado", "Reportagem de campo"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual é a importância da apuração jornalística?",
+        alternativas: ["Aumentar o número de cliques", "Confirmar a veracidade das informações", "Criar manchetes chamativas", "Promover marcas"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma entrevista jornalística?",
+        alternativas: ["Uma conversa informal", "Uma reunião de pauta", "Uma técnica para obter informações de fontes", "Uma propaganda disfarçada"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual é o papel do editor em uma redação?",
+        alternativas: ["Escrever todas as matérias", "Revisar e organizar conteúdos jornalísticos", "Fazer anúncios", "Publicar sem revisão"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma crônica jornalística?",
+        alternativas: ["Uma notícia urgente", "Um texto opinativo com tom pessoal", "Uma reportagem investigativa", "Uma entrevista coletiva"],
+        correta: 1
+    },
+    {
+        pergunta: "O que diferencia uma notícia de uma propaganda?",
+        alternativas: ["A propaganda é imparcial", "A notícia tem intenção comercial", "A propaganda promove produtos; a notícia informa", "Ambas têm o mesmo objetivo"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual é a função do jornalista?",
+        alternativas: ["Manipular informações", "Informar com responsabilidade", "Criar boatos", "Promover interesses pessoais"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma fonte anônima?",
+        alternativas: ["Fonte sem credibilidade", "Pessoa que não quer ser identificada", "Perfil falso", "Informação pública"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma matéria jornalística?",
+        alternativas: ["Um artigo científico", "Um conteúdo informativo produzido por jornalistas", "Uma postagem em rede social", "Um anúncio publicitário"],
+        correta: 1
+    },
+    {
+        pergunta: "Qual é o papel da objetividade no jornalismo?",
+        alternativas: ["Expressar opiniões pessoais", "Influenciar o público", "Apresentar os fatos sem interferência emocional", "Criar polêmicas"],
+        correta: 2
+    },
+    {
+        pergunta: "O que é uma manchete?",
+        alternativas: ["Texto de rodapé", "Título principal de uma notícia", "Resumo da matéria", "Legenda de imagem"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é jornalismo digital?",
+        alternativas: ["Jornal impresso", "Notícias transmitidas por rádio", "Produção de conteúdo jornalístico para plataformas online", "Revistas semanais"],
+        correta: 2
+    },
+    {
+        pergunta: "Qual é a função da editoria em um jornal?",
+        alternativas: ["Organizar os anúncios", "Dividir o conteúdo por temas", "Selecionar imagens", "Publicar comentários dos leitores"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma nota jornalística?",
+        alternativas: ["Texto longo e detalhado", "Informação breve e objetiva", "Entrevista exclusiva", "Artigo opinativo"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma cobertura jornalística?",
+        alternativas: ["Uma análise literária", "Acompanhamento de um evento em tempo real", "Uma crítica de cinema", "Uma propaganda institucional"],
+        correta: 1
+    },
+    {
+        pergunta: "Qual é o papel da linguagem clara no jornalismo?",
+        alternativas: ["Confundir o leitor", "Facilitar o entendimento da informação", "Impressionar com palavras difíceis", "Criar mistério"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma retratação jornalística?",
+        alternativas: ["Uma nova reportagem", "Correção de erro publicado", "Entrevista com o autor", "Opinião do editor"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma fonte primária?",
+        alternativas: ["Informação de segunda mão", "Pessoa diretamente envolvida no fato", "Resumo de outra matéria", "Comentário de redes sociais"],
+        correta: 1
+    },
+    {
+        pergunta: "Qual é a função da fotografia no jornalismo?",
+        alternativas: ["Decorar a página", "Ilustrar e complementar a informação", "Promover o fotógrafo", "Criar memes"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma análise jornalística?",
+        alternativas: ["Relato de um fato", "Interpretação aprofundada de um tema", "Resumo de uma notícia", "Entrevista com especialistas"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma fonte secundária?",
+        alternativas: ["Pessoa que presenciou o fato", "Informação obtida por meio de outra publicação", "Autor da notícia", "Entrevistado principal"],
+        correta: 1
+    },
+    {
+        pergunta: "O que é uma notícia de última hora?",
+        alternativas: ["Informação antiga", "Boato viral", "Fato recente e urgente", "Matéria de opinião"],
+        correta: 2
+    },
+    {
+        pergunta: "O que é uma coluna jornalística?",
+        alternativas: ["Texto opinativo publicado regularmente", "Resumo de notícias", "Entrevista com especialistas", "Publicidade institucional"],
+        correta: 0
+    },
+    {
+        pergunta: "Qual é a importância da diversidade de fontes?",
+        alternativas: ["Repetir a mesma versão", "Evitar contradições", "Enriquecer a apuração e garantir pluralidade", "Facilitar a edição"],
+        correta: 2
+    }
+    ];
+        // Adicione mais perguntas conforme necessário
+
+
+    function gerarQuiz() {
+        const quizForm = document.getElementById("quiz-form");
+        quizForm.innerHTML = "";
+
+        const perguntasSelecionadas = bancoDePerguntas.sort(() => 0.5 - Math.random()).slice(0, 6);
+
+        perguntasSelecionadas.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+            div.innerHTML = `<p>${index + 1}. ${item.pergunta}</p>` +
+                item.alternativas.map((alt, i) =>
+                    `<label><input type="radio" name="q${index + 1}" value="${i}"> ${alt}</label>`
+                ).join("");
+            quizForm.appendChild(div);
+        });
+
+        const botaoEnviar = document.createElement("button");
+        botaoEnviar.type = "button";
+        botaoEnviar.textContent = "Enviar";
+        botaoEnviar.onclick = () => verificarRespostas(perguntasSelecionadas);
+        quizForm.appendChild(botaoEnviar);
+
+        const botaoRetry = document.createElement("button");
+        botaoRetry.type = "button";
+        botaoRetry.id = "retry";
+        botaoRetry.textContent = "Tentar novamente";
+        botaoRetry.style.display = "none";
+        botaoRetry.onclick = () => location.reload();
+        quizForm.appendChild(botaoRetry);
+    }
+
+    function verificarRespostas(perguntas) {
+        let acertos = 0;
+        const resultado = document.getElementById("result");
+        const botaoRetry = document.getElementById("retry");
+
+        document.querySelectorAll('label').forEach(label => label.classList.remove('selected'));
+
+        perguntas.forEach((item, i) => {
+            const resposta = document.querySelector(`input[name="q${i + 1}"]:checked`);
+            if (resposta) {
+                resposta.parentElement.classList.add('selected');
+                if (parseInt(resposta.value) === item.correta) {
+                    acertos++;
+                }
+            }
+        });
+
+        resultado.textContent = acertos === perguntas.length
+            ? `🎉 Parabéns! Você acertou todas as ${acertos} perguntas.`
+            : `✅ Acertos: ${acertos} | ❌ Erros: ${perguntas.length - acertos}`;
+        botaoRetry.style.display = "inline-block";
+    }
+
+    // Emojis flutuantes
     let icones = ["📷", "🎙️", "📰", "🔍", "✏️", "📡"];
-    // Aumentando o número de emojis para 120 para maior frequência
     for (let i = 0; i < 120; i++) {
         let icon = document.createElement("div");
         icon.className = "icon";
         icon.textContent = icones[Math.floor(Math.random() * icones.length)];
-
-        let left;
-        let rand = Math.random();
-        // Faixa de queda dos emojis ampliada para cobrir mais a tela
-        const range = 300;
-        if (rand < 0.5) {
-            // Lado esquerdo
-            left = Math.random() * range;
-        } else {
-            // Lado direito
-            left = window.innerWidth - Math.random() * range;
-        }
-
+        let left = Math.random() < 0.5 ? Math.random() * 300 : window.innerWidth - Math.random() * 300;
         icon.style.left = left + "px";
         icon.style.top = Math.random() * window.innerHeight + "px";
         icon.style.animationDuration = (4 + Math.random() * 4) + "s";
         document.body.appendChild(icon);
     }
-    
-    // Objeto com as respostas corretas
-    const respostasCorretas = {
-        q1: "a",
-        q2: "d",
-        q3: "c",
-        q4: "b",
-        q5: "d",
-        q6: "c"
-    };
 
-    // Função para verificar as respostas
-    function verificarRespostas() {
-        let acertos = 0;
-        const total = Object.keys(respostasCorretas).length;
-        const resultado = document.getElementById("result");
-        const botaoRetry = document.getElementById("retry");
-        
-        // Remove a classe 'selected' de todas as labels
-        document.querySelectorAll('label').forEach(label => {
-            label.classList.remove('selected');
-        });
-        
-        for (let i = 1; i <= total; i++) {
-            const resposta = document.querySelector(`input[name="q${i}"]:checked`);
-            
-            // Se uma resposta foi selecionada
-            if (resposta) {
-                // Adiciona a classe 'selected' à label da resposta selecionada
-                resposta.parentElement.classList.add('selected');
-                
-                if (resposta.value === respostasCorretas[`q${i}`]) {
-                    acertos++;
-                }
-            }
-        }
-        
-        // Exibe o resultado e o botão de tentar novamente
-        if (acertos === total) {
-            resultado.textContent = `🎉 Parabéns! Você acertou todas as ${total} perguntas. Você conseguiu!`;
-        } else {
-            resultado.textContent = `✅ Acertos: ${acertos} | ❌ Erros: ${total - acertos}`;
-        }
-        
-        botaoRetry.style.display = "inline-block";
-    }
-
-    // Função para tentar novamente
-    function tentarNovamente() {
-        const formulario = document.getElementById("quiz-form");
-        formulario.reset();
-        
-        const resultado = document.getElementById("result");
-        resultado.textContent = "";
-        
-        const botaoRetry = document.getElementById("retry");
-        botaoRetry.style.display = "none";
-        
-        // Remove a classe 'selected' de todas as labels
-        document.querySelectorAll('label').forEach(label => {
-            label.classList.remove('selected');
-        });
-        
-    }
-
-    // Adiciona evento para escurecer a alternativa selecionada
-    document.querySelectorAll('input[type="radio"]').forEach(radio => {
-        radio.addEventListener('change', (event) => {
-            // Remove a classe 'selected' de todas as labels do mesmo grupo de rádio
-            document.querySelectorAll(`input[name="${event.target.name}"]`).forEach(input => {
-                input.parentElement.classList.remove('selected');
-            });
-            // Adiciona a classe 'selected' à label da alternativa clicada
-            event.target.parentElement.classList.add('selected');
-        });
-    });
+    window.onload = gerarQuiz;
 </script>
 
 </body>
